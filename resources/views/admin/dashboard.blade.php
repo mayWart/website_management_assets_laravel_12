@@ -10,10 +10,23 @@
                         <p class="mt-2 text-[#444444]">Selamat datang kembali yang mulia. Berikut ringkasan performa sistem hari ini.</p>
                     </div>
                     <div class="flex items-center gap-3">
-                         <div class="hidden md:block text-right">
-                            <p class="text-sm font-semibold text-[#171717]">{{ \Carbon\Carbon::now()->format('H:i') }} WIB</p>
+                        <div x-data="{
+                                time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':'),
+                                init() {
+                                    setInterval(() => {
+                                        this.time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
+                                    }, 1000);
+                                }
+                            }" class="hidden md:block text-right">
+                            
+                            {{-- Jam yang berubah otomatis --}}
+                            <p class="text-sm font-semibold text-[#171717]">
+                                <span x-text="time"></span> WIB
+                            </p>
+                            
+                            {{-- Tanggal (Static tidak apa-apa karena jarang berubah) --}}
                             <p class="text-xs text-[#444444]">{{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM Y') }}</p>
-                         </div>
+                        </div>
                          <div class="p-3 bg-white rounded-xl shadow-sm border border-[#ededed]">
                             <svg class="w-6 h-6 text-[#fd2800]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -79,7 +92,7 @@
                                     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
                                 </div>
                                 <p class="text-white font-semibold text-lg">Tambah Pegawai</p>
-                                <p class="text-white/80 text-xs mt-1">Input data baru via Pop-up</p>
+                                <p class="text-white/80 text-xs mt-1">Input data karyawan cepat</p>
                             </div>
                             <div class="flex items-center text-white text-sm font-medium mt-4 group-hover:gap-2 transition-all">
                                 Klik untuk mulai <span class="opacity-0 group-hover:opacity-100 transition-opacity">&rarr;</span>
