@@ -10,7 +10,7 @@
                 <!-- IMAGE -->
                 <div
                     class="absolute inset-0 bg-cover bg-center"
-                    style="background-image: url('{{ asset('images/regist.jpg') }}');"
+                    style="background-image: url('{{ asset('images/regone.jpg') }}');"
                 ></div>
 
                 <!-- BLOBS -->
@@ -74,24 +74,16 @@
                                     name="password"
                                     type="password"
                                     required
-                                    data-password
                                     class="mt-1 w-full rounded-lg border-gray-300 focus:border-[#fd2800] focus:ring-[#fd2800] pr-10"
                                 />
                                 <button
                                     type="button"
-                                    onclick="togglePassword('register_password', this)"
+                                    onclick="toggleRegisterPasswords(this)"
                                     class="absolute inset-y-0 right-3 flex items-center"
                                 >
-                                    <img
-                                        src="{{ asset('images/visible.png') }}"
-                                        class="eye-open w-5 h-5"
-                                    >
-                                    <img
-                                        src="{{ asset('images/hide.png') }}"
-                                        class="eye-closed w-5 h-5 hidden"
-                                    >
+                                    <img src="{{ asset('images/visible.png') }}" class="eye-open w-5 h-5">
+                                    <img src="{{ asset('images/hide.png') }}" class="eye-closed w-5 h-5 hidden">
                                 </button>
-
                             </div>
 
                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
@@ -107,7 +99,6 @@
                                     name="password_confirmation"
                                     type="password"
                                     required
-                                    data-confirm-password
                                     class="mt-1 w-full rounded-lg border-gray-300 focus:border-[#fd2800] focus:ring-[#fd2800] pr-10"
                                 />
 
@@ -115,21 +106,6 @@
                                 class="text-red-500 text-sm mt-1 hidden">
                                     Password tidak sama
                                 </p>
-
-                                <button
-                                    type="button"
-                                    onclick="togglePassword('register_password_confirmation', this)"
-                                    class="absolute inset-y-0 right-3 flex items-center"
-                                >
-                                    <img
-                                        src="{{ asset('images/visible.png') }}"
-                                        class="eye-open w-5 h-5"
-                                    >
-                                    <img
-                                        src="{{ asset('images/hide.png') }}"
-                                        class="eye-closed w-5 h-5 hidden"
-                                    >
-                                </button>
 
                             </div>
 
@@ -205,19 +181,25 @@ function validateRegisterPassword() {
 
 
 <script>
-function togglePassword(inputId, btn) {
-    const input = document.getElementById(inputId);
+function toggleRegisterPasswords(btn) {
+    const password = document.getElementById('register_password');
+    const confirm  = document.getElementById('register_password_confirmation');
+
     const eyeOpen = btn.querySelector('.eye-open');
     const eyeClosed = btn.querySelector('.eye-closed');
 
-    if (input.type === "password") {
-        input.type = "text";
+    const show = password.type === "password";
+
+    password.type = show ? "text" : "password";
+    confirm.type  = show ? "text" : "password";
+
+    if (show) {
         eyeOpen.classList.add("hidden");
         eyeClosed.classList.remove("hidden");
     } else {
-        input.type = "password";
         eyeOpen.classList.remove("hidden");
         eyeClosed.classList.add("hidden");
     }
 }
 </script>
+
