@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PegawaiController;
 use App\Models\User; 
+use App\Http\Controllers\Admin\AsetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,27 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
 
     // --- 1. DASHBOARD USER BIASA ---
+    // ADMIN
+    Route::middleware('admin')->group(function () {
+        Route::get('/admin/dashboard', function () {
+            return view('admin.dashboard');
+        })->name('admin.dashboard');
+        
+        // CRUD ASET (ADMIN)
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::resource('aset', AsetController::class);
+        });
+
+    });
+
+    // PEGAWAI (WAJIB DIISI DULU)
+    Route::get('/pegawai/create', [PegawaiController::class, 'create'])
+        ->name('pegawai.create');
+
+    Route::post('/pegawai', [PegawaiController::class, 'store'])
+        ->name('pegawai.store');
+
+    // DASHBOARD
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');

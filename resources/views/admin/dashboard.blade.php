@@ -52,6 +52,29 @@
                                     Data Terkini
                                 </span>
                             </div>
+                        
+                        <!-- Card 3: Total Aset -->
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                            <h4 class="font-semibold text-yellow-900 mb-2">Total Aset</h4>
+                            <p class="text-3xl font-bold text-yellow-600">
+                                {{ \App\Models\Aset::count() }}
+                            </p>
+                        </div>
+
+                        <!-- Card 4: Pegawai Aktif -->
+                        <div class="bg-purple-50 border border-purple-200 rounded-lg p-6">
+                            <h4 class="font-semibold text-purple-900 mb-2">Pegawai Aktif</h4>
+                            <p class="text-3xl font-bold text-purple-600">
+                                {{ \App\Models\Pegawai::where('status_pegawai', 'aktif')->count() }}
+                            </p>
+                        </div>
+
+                        <!-- Card 5: Pegawai Non-Aktif -->
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+                            <h4 class="font-semibold text-red-900 mb-2">Pegawai Non-Aktif</h4>
+                            <p class="text-3xl font-bold text-red-600">
+                                {{ \App\Models\Pegawai::where('status_pegawai', 'nonaktif')->count() }}
+                            </p>
                         </div>
                     </div>
 
