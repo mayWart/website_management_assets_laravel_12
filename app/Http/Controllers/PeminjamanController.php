@@ -86,29 +86,29 @@ class PeminjamanController extends Controller
     }
 
     public function indexAdmin()
-{
-    // 1. Data Permintaan Masuk (Pending)
-    $pending = Peminjaman::with(['pegawai', 'aset'])
-                ->where('status', 'pending')
-                ->latest()
-                ->get();
+    {
+        // 1. Data Permintaan Masuk (Pending)
+        $pending = Peminjaman::with(['pegawai', 'aset'])
+                    ->where('status', 'pending')
+                    ->latest()
+                    ->get();
 
-    // 2. Data Sedang Dipinjam (Disetujui/Active)
-    // Diurutkan berdasarkan tanggal rencana kembali (yang paling dekat deadline di atas)
-    $active = Peminjaman::with(['pegawai', 'aset'])
-                ->where('status', 'disetujui')
-                ->orderBy('tanggal_kembali', 'asc') 
-                ->get();
+        // 2. Data Sedang Dipinjam (Disetujui/Active)
+        // Diurutkan berdasarkan tanggal rencana kembali (yang paling dekat deadline di atas)
+        $active = Peminjaman::with(['pegawai', 'aset'])
+                    ->where('status', 'disetujui')
+                    ->orderBy('tanggal_kembali', 'asc') 
+                    ->get();
 
-    // 3. Data Riwayat (Selesai/Ditolak) - Ambil 50 terakhir saja agar ringan
-    $history = Peminjaman::with(['pegawai', 'aset'])
-                ->whereIn('status', ['kembali', 'ditolak'])
-                ->latest()
-                ->limit(50)
-                ->get();
+        // 3. Data Riwayat (Selesai/Ditolak) - Ambil 50 terakhir saja agar ringan
+        $history = Peminjaman::with(['pegawai', 'aset'])
+                    ->whereIn('status', ['kembali', 'ditolak'])
+                    ->latest()
+                    ->limit(50)
+                    ->get();
 
-    return view('admin.peminjaman.index', compact('pending', 'active', 'history'));
-}
+        return view('admin.peminjaman.index', compact('pending', 'active', 'history'));
+    }
     public function indexUser()
     {
         // 1. Ambil data pegawai dari user yang login
