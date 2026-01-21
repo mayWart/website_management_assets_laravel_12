@@ -106,6 +106,7 @@ class AsetController extends Controller
             ->with('success', 'Aset berhasil ditambahkan');
     }
 
+
     public function edit(Aset $aset)
     {
         return view('admin.aset.form', compact('aset'));
@@ -130,6 +131,20 @@ class AsetController extends Controller
         if(Aset::where('kode_aset', $kodeAset)->where('id_aset', '!=', $aset->id_aset)->exists()){
              return back()->withErrors(['kode_aset_suffix' => 'Kode aset ini sudah digunakan aset lain.'])->withInput();
         }
+
+        $kodeSudahAda = Aset::where('kode_aset', $kodeAset)
+            ->where('id_aset', '!=', $aset->id_aset)
+            ->exists();
+
+        if ($kodeSudahAda) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors([
+                    'kode_aset' => 'Kode aset sudah digunakan oleh aset lain.',
+                ]);
+        }
+
 
         // Update database
         $aset->update([
