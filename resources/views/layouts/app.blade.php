@@ -13,6 +13,10 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -124,6 +128,23 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
+{{-- SWEETALERT: PEMINJAMAN SUDAH PENDING --}}
+@if(session('peminjaman_pending'))
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Peminjaman Ditolak',
+        text: '{{ session('peminjaman_pending') }}',
+        confirmButtonText: 'Mengerti',
+        confirmButtonColor: '#fd2800',
+        allowOutsideClick: false
+    });
+});
+</script>
+@endif
+
 @endif
 
 
