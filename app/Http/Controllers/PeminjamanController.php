@@ -138,7 +138,7 @@ class PeminjamanController extends Controller
         $count = \App\Models\Peminjaman::where('status', 'pending')->count();
         return response()->json(['count' => $count]);
     }
-    public function returnAsset(Request $request, $id)
+public function returnAsset(Request $request, $id)
 {
     // Validasi input kondisi
     $request->validate([
@@ -146,40 +146,55 @@ class PeminjamanController extends Controller
     ]);
 
     DB::transaction(function () use ($request, $id) {
-        // 1. Ambil data peminjaman
+
+        // 1️⃣ Ambil data peminjaman
         $peminjaman = Peminjaman::findOrFail($id);
         
-        // 2. Ambil data aset terkait
+        // 2️⃣ Ambil data aset terkait
         $aset = Aset::find($peminjaman->id_aset);
 
-        // 3. Logika Update Status Aset berdasarkan Kondisi Fisik
-        if ($request->kondisi == 'baik') {
+        // 3️⃣ HITUNG KETERLAMBATAN
+        $tanggalRencana = Carbon::parse($peminjaman->tanggal_kembali);
+        $tanggalReal = Carbon::now();
+
+        $hariTerlambat = max(
+            0,
+            $tanggalRencana->diffInDays($tanggalReal, false)
+        );
+
+        // Contoh kebijakan internal (bisa diubah)
+        $biayaTanggungJawab = $hariTerlambat * 5000;
+
+        // 4️⃣ UPDATE STATUS ASET BERDASARKAN KONDISI
+        if ($request->kondisi === 'baik') {
             $aset->update([
                 'status_aset' => 'tersedia',
                 'kondisi_aset' => 'baik'
             ]);
-        } elseif ($request->kondisi == 'rusak') {
+        } elseif ($request->kondisi === 'rusak') {
             $aset->update([
                 'status_aset' => 'rusak',
                 'kondisi_aset' => 'rusak'
             ]);
         } else {
-            // Jika Hilang, set status rusak (atau bisa tambah enum 'hilang' di tabel aset jika mau)
+            // hilang
             $aset->update([
-                'status_aset' => 'rusak', 
-                'kondisi_aset' => 'rusak' 
+                'status_aset' => 'rusak',
+                'kondisi_aset' => 'rusak'
             ]);
         }
 
-        // 4. Update Data Peminjaman (Selesaikan Transaksi)
+        // 5️⃣ UPDATE DATA PEMINJAMAN (INI BAGIAN BARU 🔥)
         $peminjaman->update([
             'status' => 'kembali',
-            'tanggal_kembali_real' => Carbon::now(), // Catat tanggal hari ini
+            'tanggal_kembali_real' => $tanggalReal,
+            'hari_terlambat' => $hariTerlambat,
+            'biaya_tanggung_jawab' => $biayaTanggungJawab,
             'kondisi_pengembalian' => $request->kondisi
         ]);
     });
 
-    return back()->with('success', 'Aset berhasil dikembalikan. Stok dan kondisi telah diperbarui.');
+    return back()->with('success', 'Aset berhasil dikembalikan. Data keterlambatan tercatat.');
 }
     // cetak PDF
     public function cetakPdf(Request $request)

@@ -195,25 +195,25 @@
         });
 
         // 2. Logic Notifikasi Sukses (Compact Toast)
-        @if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil',
-            text: '{{ session('success') }}',
-            iconColor: '#fd2800',
-            background: '#ffffff',
-            color: '#171717',
-            width: 380,
-            showConfirmButton: false,
-            timer: 2200,
-            timerProgressBar: true,
-            customClass: {
-                popup: 'rounded-2xl shadow-xl border border-slate-100 font-sans',
-                title: 'text-lg font-bold text-[#171717]',
-                htmlContainer: 'text-sm text-slate-500'
-            }
-        });
-        @endif
+@if(session('success'))
+Swal.fire({
+    icon: 'success',
+    title: 'Berhasil',
+    text: "{!! session('success') !!}", // Menggunakan !! agar karakter khusus tidak error
+    iconColor: '#fd2800',
+    background: '#ffffff',
+    color: '#171717',
+    width: 380,
+    showConfirmButton: false,
+    timer: 2200,
+    timerProgressBar: true,
+    customClass: {
+        popup: 'rounded-2xl shadow-xl border border-slate-100 font-sans',
+        title: 'text-lg font-bold text-[#171717]',
+        htmlContainer: 'text-sm text-slate-500'
+    }
+});
+@endif
 
 </script>
 </x-app-layout>
