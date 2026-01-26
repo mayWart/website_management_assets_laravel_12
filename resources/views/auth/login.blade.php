@@ -103,18 +103,10 @@
 
                         <!-- REMEMBER + FORGOT -->
                         <div class="flex items-center justify-between text-sm text-[#444444]">
-                            <label class="flex items-center gap-2">
-                                <input type="checkbox" name="remember"
-                                       class="rounded border-gray-300 text-[#fd2800] focus:ring-[#fd2800]">
-                                Remember me
-                            </label>
-
-                            @if (Route::has('password.request'))
                                 <a href="{{ route('password.request') }}"
                                    class="text-[#fd2800] hover:underline">
                                     Forgot password?
                                 </a>
-                            @endif
                         </div>
 
                         <!-- LOGIN BUTTON -->

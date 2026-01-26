@@ -227,7 +227,6 @@
             });
         });
 
-<<<<<<< HEAD
         // 2. Logic Notifikasi Sukses (Compact Toast)
 @if(session('success'))
 Swal.fire({
@@ -250,19 +249,4 @@ Swal.fire({
 @endif
 
 </script>
-=======
-        @if(session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: '{{ session('success') }}',
-                showConfirmButton: false,
-                timer: 1500,
-                width: '300px',
-                iconColor: '#fd2800',
-                customClass: { popup: 'rounded-xl font-sans', title: 'text-base font-bold', htmlContainer: 'text-xs' }
-            });
-        @endif
-    </script>
->>>>>>> 4ae2455f9a9b2b83b718ff8f066d69f54f68415b
 </x-app-layout>

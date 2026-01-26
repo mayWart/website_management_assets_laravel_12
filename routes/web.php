@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -20,8 +21,8 @@ use Carbon\Carbon;
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-    if (auth()->check()) {
-        if (auth()->user()->role === 'admin') {
+    if (Auth::check()) {
+        if (Auth::user()->role === 'admin') {
             return redirect()->route('admin.dashboard');
         }
         return redirect()->route('dashboard');
@@ -49,23 +50,21 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
 
     // --- 1. DASHBOARD USER BIASA ---
-    Route::get('/dashboard', function () {
-        $pegawai = auth()->user()->pegawai;
-    
-        // Ambil riwayat pinjam user
-        $riwayatPinjam = [];
-        if($pegawai) {
-             $riwayatPinjam = Peminjaman::where('id_pegawai', $pegawai->id_pegawai)
-                                        ->with('aset') // Load relasi aset agar efisien
-                                        ->latest()
-                                        ->get();
-        }
+Route::get('/dashboard', function () {
+    $pegawai = Auth::user()->pegawai;
 
-        // AMBIL ASET UNTUK DROPDOWN (Hanya yang tersedia)
-        $assets = Aset::where('status_aset', 'tersedia')->get();
+    $riwayatPinjam = [];
+    if ($pegawai) {
+        $riwayatPinjam = Peminjaman::where('id_pegawai', $pegawai->id_pegawai)
+            ->with('aset')
+            ->latest()
+            ->get();
+    }
 
-        return view('dashboard', compact('riwayatPinjam', 'assets'));
-    })->name('dashboard'); // <-- SUDAH DIPERBAIKI (Hapus satu titik koma)
+    $assets = Aset::where('status_aset', 'tersedia')->get();
+
+    return view('dashboard', compact('riwayatPinjam', 'assets'));
+})->name('dashboard');
 
     // --- 2. PEGAWAI SELF-SERVICE ---
     Route::get('/pegawai/daftar', [PegawaiController::class, 'create'])->name('pegawai.create');
@@ -181,3 +180,5 @@ Route::middleware('auth')->group(function () {
 
 
 });
+
+require __DIR__.'/auth.php';
