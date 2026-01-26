@@ -46,6 +46,7 @@
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Durasi</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keperluan</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tgl Pengajuan</th>
                                     </tr>
                                 </thead>
@@ -89,6 +90,14 @@
                                             {{ $item->created_at->diffForHumans() }}
                                         </td>
                                     </tr>
+                                    
+                                    <td class="px-6 py-4 whitespace-nowrap">
+    <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset
+        ...">
+        {{ ucfirst($item->status) }}
+    </span>
+</td>
+
                                     @endforeach
                                 </tbody>
                             </table>
