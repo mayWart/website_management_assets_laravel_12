@@ -1,9 +1,17 @@
 <x-guest-layout>
-    <div class="min-h-screen flex items-center justify-center bg-[#ffffff]">
-        
+    <div
+        class="min-h-screen flex items-center justify-center bg-cover bg-center relative"
+        style="background-image: url('{{ asset('images/regfive.jpg') }}');"
+    >
+
+        <!-- OVERLAY -->
+        <div class="absolute inset-0 bg-white/30 lg:bg-white"></div>
+
+        <!-- CONTENT WRAPPER -->
+        <div class="relative z-10 w-full flex items-center justify-center">     
 
         <!-- ================= MAIN CARD ================= -->
-        <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+        <div class="w-full max-w-4xl mx-4 lg:mx-0 bg-white rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
 
             <!-- ========== LEFT SIDE (IMAGE + BLOBS) ========== -->
             <div class="relative hidden lg:block overflow-hidden bg-[#171717]">
@@ -37,7 +45,7 @@
             </div>
 
             <!-- ========== RIGHT SIDE (FORM) ========== -->
-            <div class="flex items-center justify-center p-10">
+            <div class="flex items-center justify-center p-6 sm:p-8 lg:p-10">
                 <div class="w-full max-w-md">
 
                     <h2 class="text-2xl font-bold text-[#171717]">
@@ -103,18 +111,10 @@
 
                         <!-- REMEMBER + FORGOT -->
                         <div class="flex items-center justify-between text-sm text-[#444444]">
-                            <label class="flex items-center gap-2">
-                                <input type="checkbox" name="remember"
-                                       class="rounded border-gray-300 text-[#fd2800] focus:ring-[#fd2800]">
-                                Remember me
-                            </label>
-
-                            @if (Route::has('password.request'))
                                 <a href="{{ route('password.request') }}"
                                    class="text-[#fd2800] hover:underline">
                                     Forgot password?
                                 </a>
-                            @endif
                         </div>
 
                         <!-- LOGIN BUTTON -->
@@ -140,20 +140,6 @@
         </div>
     </div>
 </x-guest-layout>
-
-<script>
-function togglePassword(inputId, btn) {
-    const input = document.getElementById(inputId);
-
-    if (input.type === "password") {
-        input.type = "text";
-        btn.classList.add("text-[#fd2800]");
-    } else {
-        input.type = "password";
-        btn.classList.remove("text-[#fd2800]");
-    }
-}
-</script>
 
 <script>
 function togglePassword(inputId, btn) {

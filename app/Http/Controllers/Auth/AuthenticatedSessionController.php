@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
@@ -22,16 +23,16 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        \Log::info('Login request received', [
+        Log::info('Login request received', [
             'username' => $request->input('username'),
             'ip' => $request->ip(),
         ]);
 
         try {
             $request->authenticate();
-            \Log::info('Authentication passed for: ' . $request->input('username'));
+            Log::info('Authentication passed for: ' . $request->input('username'));
         } catch (\Exception $e) {
-            \Log::error('Authentication failed', [
+            Log::error('Authentication failed', [
                 'username' => $request->input('username'),
                 'error' => $e->getMessage(),
             ]);
@@ -42,7 +43,7 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-        \Log::info('Login successful', [
+        Log::info('Login successful', [
             'user_id' => $user->id,
             'username' => $user->username,
             'role' => $user->role,
