@@ -342,7 +342,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <button onclick="cetakPDF()" class="inline-flex items-center gap-2 rounded-lg bg-white border border-[#ededed] px-5 py-2.5 text-sm font-bold text-[#171717] hover:bg-[#ededed] hover:text-black transition-colors font-heading shadow-sm">
+                            <button onclick="cetakPDF()" class="inline-flex items-center gap-2 rounded-lg bg-[#171717] border border-[#ededed] px-5 py-2.5 text-sm font-bold text-[#EAEFEF] hover:bg-[#fd2800] hover:text-[#EAEFEF] transition-colors font-heading shadow-sm">
                                 Cetak Laporan PDF
                             </button>
                         </div>

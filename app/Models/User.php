@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Pegawai;
+use App\Models\Message; // Import Model Message
 
 class User extends Authenticatable
 {
@@ -36,6 +37,29 @@ class User extends Authenticatable
         return [
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * ================================
+     * HELPER ROLE (UNTUK CHAT)
+     * ================================
+     */
+    public function isAdmin()
+    {
+        // Pastikan value 'admin' sesuai dengan isi kolom role di database Anda
+        // Jika di database tulisannya 'administrator', ganti jadi 'administrator'
+        return $this->role === 'admin';
+    }
+
+    /**
+     * ================================
+     * RELASI KE CHAT MESSAGE
+     * ================================
+     */
+    public function chats()
+    {
+        // Relasi ke pesan di mana User ini adalah pemilik percakapan (user_id)
+        return $this->hasMany(Message::class, 'user_id');
     }
 
     /**
