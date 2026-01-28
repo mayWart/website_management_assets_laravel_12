@@ -12,7 +12,10 @@
                     </div>
 
                     {{-- Time Widget --}}
-                    <div class="flex items-center gap-3">
+                   <div class="flex items-center gap-3">
+                        {{-- 1. BAGIAN JAM (TEXT) --}}
+                        {{-- Ubah: order-2 (mobile/tab kanan), lg:order-1 (desktop kiri) --}}
+                        {{-- Ubah: items-start (mobile/tab rata kiri), lg:items-end (desktop rata kanan) --}}
                         <div x-data="{
                                 time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':'),
                                 init() {
@@ -20,15 +23,23 @@
                                         this.time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
                                     }, 1000);
                                 }
-                            }" class="hidden md:flex flex-col items-end">
+                            }" 
+                            class="flex flex-col order-2 lg:order-1 items-start lg:items-end"> 
+                            
                             <span class="text-2xl font-bold text-[#171717] font-mono leading-none" x-text="time"></span>
-                            <span class="text-xs text-slate-400 font-medium">{{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM Y') }}</span>
+                            <span class="text-xs text-slate-400 font-medium text-left lg:text-right">
+                                {{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM Y') }}
+                            </span>
                         </div>
-                        <div class="p-3 bg-white rounded-xl shadow-sm border border-slate-200">
+
+                        {{-- 2. BAGIAN ICON --}}
+                        {{-- Ubah: order-1 (mobile/tab kiri), lg:order-2 (desktop kanan) --}}
+                        <div class="order-1 lg:order-2 p-3 bg-white rounded-xl shadow-sm border border-slate-200">
                             <svg class="w-6 h-6 text-[#fd2800]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
+
                     </div>
                 </div>
 
@@ -288,7 +299,7 @@
             </div>
         </div>
 
-        {{-- MODAL POPUP FORM (TIDAK DIUBAH, HANYA DIPASTIKAN VALID) --}}
+        {{-- MODAL POPUP FORM --}}
         <div 
             x-show="showModal" 
             style="display: none;"
@@ -297,6 +308,7 @@
             role="dialog" 
             aria-modal="true"
         >
+            {{-- Overlay Background --}}
             <div 
                 x-show="showModal"
                 x-transition:enter="ease-out duration-300"
@@ -310,6 +322,7 @@
             ></div>
 
             <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                {{-- BAGIAN INI YANG DIUBAH --}}
                 <div 
                     x-show="showModal"
                     x-transition:enter="ease-out duration-300"
@@ -318,8 +331,15 @@
                     x-transition:leave="ease-in duration-200"
                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-slate-200"
+                    class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all border border-slate-200 
+                    w-full max-w-md sm:max-w-lg" 
                 >
+                {{-- Penjelasan Perubahan Class:
+                    1. w-full : Memaksa lebar 100% dari container (agar kotak penuh).
+                    2. max-w-md : Membatasi lebar maksimal di HP/Tab agar proporsional (sekitar 448px).
+                    3. sm:max-w-lg : Memperlebar batas maksimal saat di layar Laptop (sekitar 512px). 
+                --}}
+                    
                     <div class="bg-white px-6 py-5 border-b border-slate-100 flex justify-between items-center">
                         <div>
                             <h3 class="text-lg font-bold text-[#171717]" id="modal-title">Tambah Pegawai</h3>
@@ -335,6 +355,7 @@
                     <form action="{{ route('pegawai.store') }}" method="POST">
                         @csrf
                         <div class="px-6 py-6 space-y-5">
+                            {{-- Input Tautkan Akun --}}
                             <div class="space-y-1.5">
                                 <label class="block text-sm font-semibold text-[#171717]">Tautkan Akun User <span class="text-[#fd2800]">*</span></label>
                                 <div class="relative">
@@ -350,6 +371,7 @@
                                 </div>
                             </div>
 
+                            {{-- Grid NIP & Nama --}}
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <div class="space-y-1.5">
                                     <label class="block text-sm font-semibold text-[#171717]">NIP <span class="text-[#fd2800]">*</span></label>
@@ -363,6 +385,7 @@
                                 </div>
                             </div>
 
+                            {{-- Grid Jabatan & Bidang --}}
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <div class="space-y-1.5">
                                     <label class="block text-sm font-semibold text-[#171717]">Jabatan</label>

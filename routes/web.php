@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\Admin\AsetController;
 use App\Http\Controllers\PeminjamanController;
+use App\Livewire\ChatSupport;
 use App\Models\User;
 use App\Models\Pegawai;
 use App\Models\Aset;
@@ -75,6 +76,17 @@ Route::get('/dashboard', function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+
+    // ==========================================
+    //  FITUR CHAT BANTUAN (User)
+    // ==========================================
+    Route::get('/chat-bantuan', ChatSupport::class)
+        ->middleware('auth')
+        ->name('chat.support');
+
+    
+
+
     // ==========================================
     //  FITUR PEMINJAMAN (USER / PEGAWAI)
     // ==========================================
@@ -140,6 +152,13 @@ Route::get('/dashboard', function () {
 
             return view('admin.dashboard', compact('stats', 'latestPegawai', 'latestAset', 'users', 'incomingRequests'));
         })->name('admin.dashboard');
+
+        // ==========================================
+        //  FITUR LIVE CHAT ADMIN (Letakkan Disini)
+        // ==========================================
+        Route::get('/admin/chat', function () {
+            return view('admin.chat');
+        })->name('admin.chat.index');
 
         // ==========================================
         // MANAJEMEN ASET

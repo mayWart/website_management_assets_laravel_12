@@ -12,29 +12,27 @@
                 <div class="hidden space-x-8 sm:flex">
                     
                     @if(Auth::user()->role === 'admin')
-                        {{-- 1. DASHBOARD ADMIN --}}
+                        {{-- ======================= --}}
+                        {{-- MENU ADMIN --}}
+                        {{-- ======================= --}}
                         <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" 
                             class="text-sm font-medium transition-colors duration-200 hover:text-blue-600">
                             {{ __('Dashboard') }}
                         </x-nav-link>
 
-                        {{-- 2. MANAJEMEN PEGAWAI --}}
                         <x-nav-link :href="route('pegawai.index')" :active="request()->routeIs('pegawai.*')" 
                             class="text-sm font-medium transition-colors duration-200 hover:text-blue-600">
                             {{ __('Pegawai') }}
                         </x-nav-link>
 
-                        {{-- 3. MANAJEMEN ASET --}}
                         <x-nav-link :href="route('admin.aset.index')" :active="request()->routeIs('admin.aset.*')" 
                             class="text-sm font-medium transition-colors duration-200 hover:text-blue-600">
                             {{ __('Data Aset') }}
                         </x-nav-link>
 
-                        {{-- [BARU] 4. PERMINTAAN PEMINJAMAN --}}
                         <x-nav-link :href="route('admin.peminjaman.index')" :active="request()->routeIs('admin.peminjaman.*')" 
                             class="text-sm font-medium transition-colors duration-200 hover:text-blue-600">
                             {{ __('Permintaan Masuk') }}
-                            {{-- Opsional: Badge Notification jika ada data pending --}}
                             @php
                                 $pendingCount = \App\Models\Peminjaman::where('status', 'pending')->count();
                             @endphp
@@ -45,17 +43,32 @@
                             @endif
                         </x-nav-link>
 
+                        {{-- [BARU] LIVE CHAT ADMIN --}}
+                        <x-nav-link :href="route('admin.chat.index')" :active="request()->routeIs('admin.chat.index')" 
+                            class="text-sm font-medium transition-colors duration-200 hover:text-[#fd2800] text-[#fd2800]">
+                            {{ __('Live Chat') }}
+                        </x-nav-link>
+
                     @else
+                        {{-- ======================= --}}
                         {{-- MENU USER BIASA --}}
+                        {{-- ======================= --}}
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" 
                             class="text-sm font-medium transition-colors duration-200 hover:text-blue-600">
                             {{ __('Dashboard') }}
                         </x-nav-link>
                         
-                        {{-- Menu Riwayat User (Opsional, jika route user history ada) --}}
-                         <x-nav-link :href="route('peminjaman.index')" :active="request()->routeIs('peminjaman.index')" 
+                        <x-nav-link :href="route('peminjaman.index')" :active="request()->routeIs('peminjaman.index')" 
                             class="text-sm font-medium transition-colors duration-200 hover:text-blue-600">
                             {{ __('Riwayat Saya') }}
+                        </x-nav-link>
+
+                        <x-nav-link
+                            :href="route('chat.support')"
+                            :active="request()->routeIs('chat.support')"
+                            class="text-sm font-medium transition-colors duration-200
+                                hover:text-[#fd2800] text-[#fd2800]">
+                            {{ __('Chat Bantuan') }}
                         </x-nav-link>
                     @endif
 
@@ -105,6 +118,7 @@
         </div>
     </div>
 
+    {{-- MOBILE MENU --}}
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden bg-white border-t border-gray-100">
         <div class="pt-2 pb-3 space-y-1">
             
@@ -121,16 +135,25 @@
                     {{ __('Data Aset') }}
                 </x-responsive-nav-link>
 
-                {{-- [BARU] Link Mobile untuk Approval --}}
                 <x-responsive-nav-link :href="route('admin.peminjaman.index')" :active="request()->routeIs('admin.peminjaman.*')">
                     {{ __('Permintaan Masuk') }}
                 </x-responsive-nav-link>
+
+                {{-- [BARU] LIVE CHAT MOBILE --}}
+                <x-responsive-nav-link :href="route('admin.chat.index')" :active="request()->routeIs('admin.chat.index')" class="text-[#fd2800]">
+                    {{ __('Live Chat') }}
+                </x-responsive-nav-link>
+
             @else
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>
                  <x-responsive-nav-link :href="route('peminjaman.index')" :active="request()->routeIs('peminjaman.index')">
                     {{ __('Riwayat Saya') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('chat.support')" :active="request()->routeIs('chat.support')" class="text-[#fd2800]">
+                    {{ __('Chat Bantuan') }}
                 </x-responsive-nav-link>
             @endif
 
