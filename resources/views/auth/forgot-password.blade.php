@@ -8,7 +8,7 @@
             <div class="relative hidden lg:block overflow-hidden bg-[#171717]">
                 <div
                     class="absolute inset-0 bg-cover bg-center"
-                    style="background-image: url('{{ asset('images/regone.jpg') }}');"
+                    style="background-image: url('{{ asset('images/regsol.jpg') }}');"
                 ></div>
             </div>
 
@@ -40,6 +40,7 @@
                                 :value="old('email')"
                                 required
                                 autofocus
+                                placeholder='@gmail.com'
                                 class="mt-1 w-full rounded-lg border-gray-300 focus:border-[#fd2800] focus:ring-[#fd2800]"
                             />
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
