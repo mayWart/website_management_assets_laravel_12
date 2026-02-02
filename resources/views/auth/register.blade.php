@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div
         class="min-h-screen flex items-center justify-center bg-cover bg-center relative"
-        style="background-image: url('{{ asset('images/regone.jpg') }}');"
+        style="background-image: url('{{ asset('images/reggjo.jpg') }}');"
     >
 
         <!-- OVERLAY -->
