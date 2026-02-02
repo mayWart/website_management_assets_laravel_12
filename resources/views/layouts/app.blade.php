@@ -148,8 +148,9 @@
         {{-- ======================================================= --}}
         @livewireScriptConfig
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+        {{-- ======================================================= --}}
+        {{-- 4. PAGE SPECIFIC SCRIPTS (Chart.js, Dashboard, dll)     --}}
+        {{-- ======================================================= --}}
         @stack('scripts')
- </body>
+    </body>
 </html>
