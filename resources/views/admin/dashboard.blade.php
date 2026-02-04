@@ -606,26 +606,31 @@
                 @else
                     <ul class="space-y-4">
                         @foreach($topPeminjam as $index => $row)
-                            <li class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#171717] to-slate-600
-                                                text-white text-sm font-bold flex items-center justify-center">
-                                        {{ $index + 1 }}
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-semibold text-slate-700 leading-tight">
-                                            {{ $row->pegawai->nama_pegawai ?? 'Tidak Diketahui' }}
-                                        </p>
-                                        <p class="text-[11px] text-slate-400">
-                                            Total peminjaman
-                                        </p>
-                                    </div>
+                        <li class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-full text-white text-sm font-bold flex items-center justify-center
+                                    @if($index == 0) bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-sm shadow-yellow-200
+                                    @elseif($index == 1) bg-gradient-to-br from-slate-300 to-slate-500
+                                    @elseif($index == 2) bg-gradient-to-br from-orange-400 to-orange-700
+                                    @else bg-gradient-to-br from-blue-500 to-blue-700
+                                    @endif">
+                                    {{ $index + 1 }}
                                 </div>
-                                <span class="px-2 py-1 text-xs rounded-lg bg-slate-100 font-mono text-slate-500">
-                                    {{ $row->total }}x
-                                </span>
-                            </li>
-                        @endforeach
+                                
+                                <div>
+                                    <p class="text-sm font-semibold text-slate-700 leading-tight">
+                                        {{ $row->pegawai->nama_pegawai ?? 'Tidak Diketahui' }}
+                                    </p>
+                                    <p class="text-[11px] text-slate-400">
+                                        Total peminjaman
+                                    </p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 text-xs rounded-lg bg-slate-100 font-mono text-slate-500">
+                                {{ $row->total }}x
+                            </span>
+                        </li>
+                    @endforeach
                     </ul>
                 @endif
             </div>
@@ -718,7 +723,7 @@
             {{-- ================= RINGKASAN --}}
             <div class="border border-slate-100 rounded-xl p-5">
                 <h4 class="text-sm font-bold text-slate-700 mb-3">
-                    ⏱ Rata-rata Durasi Peminjaman
+                    Rata-rata Durasi Peminjaman
                 </h4>
 
                 <p id="durasiValue"
@@ -734,7 +739,7 @@
 
             <div class="border border-slate-100 rounded-xl p-5">
                 <h4 class="text-sm font-bold text-slate-700 mb-3">
-                    ⚠ Tingkat Keterlambatan
+                    Tingkat Keterlambatan
                 </h4>
 
                 <p id="telatValue"

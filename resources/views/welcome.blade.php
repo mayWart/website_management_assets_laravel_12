@@ -27,7 +27,7 @@
         }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ededed; }
         .glass-nav { background: rgba(237, 237, 237, 0.8); backdrop-filter: blur(12px); }
-        .hero-gradient { background: radial-gradient(circle at top right, rgba(253, 40, 0, 0.05), transparent); }
+        .hero-gradient { background: radial-gradient(circle at top right, rgba(253, 50, 0, 0.10), transparent); }
         .btn-primary { background-color: #fd2800; transition: all 0.3s ease; }
         .btn-primary:hover { background-color: #171717; transform: translateY(-2px); }
         .card-hover:hover { border-color: #fd2800; transform: translateY(-5px); }

@@ -190,9 +190,13 @@
 
                                     {{-- FOOTER: Actions --}}
                                     <div class="pt-5 mt-2 flex items-center gap-3 border-t border-[#f5f5f5]">
-                                        <form action="{{ route('admin.peminjaman.reject', $item->id) }}" method="POST" class="flex-1">
+                                        <form id="form-reject-{{ $item->id }}" action="{{ route('admin.peminjaman.reject', $item->id) }}" method="POST" class="flex-1">
                                             @csrf @method('PATCH')
-                                            <button type="submit" onclick="return confirm('Tolak permintaan ini?')" class="w-full py-2.5 px-3 rounded-lg border border-[#ededed] bg-white text-xs font-bold text-[#444444] font-heading hover:bg-gray-50 hover:text-[#171717] hover:border-gray-300 transition-all focus:ring-2 focus:ring-gray-200">
+                                            <button type="button" 
+                                                class="btn-reject w-full py-2.5 px-3 rounded-lg border border-[#ededed] bg-white text-xs font-bold text-[#444444] font-heading hover:bg-gray-50 hover:text-[#171717] hover:border-gray-300 transition-all focus:ring-2 focus:ring-gray-200"
+                                                data-id="{{ $item->id }}"
+                                                data-name="{{ $item->aset->nama_aset }}"
+                                                data-user="{{ $item->pegawai->nama_pegawai }}">
                                                 Tolak
                                             </button>
                                         </form>
@@ -423,8 +427,46 @@
 
             
         @endif
+        document.body.addEventListener('click', function(e) {
+            const target = e.target.closest('.btn-reject');
 
-        // --- 2. LOGIC TOMBOL RETURN (Modern SweetAlert) ---
+            if (target) {
+                e.preventDefault();
+                const id = target.getAttribute('data-id');
+                const namaAset = target.getAttribute('data-name');
+                const namaUser = target.getAttribute('data-user');
+
+                Swal.fire({
+                    title: '<span class="font-heading text-2xl text-[#171717] font-bold">Tolak Permintaan?</span>',
+                    html: `
+                        <div class="text-center mt-2">
+                            <p class="text-sm text-[#444444] font-body">
+                                Anda akan menolak permintaan peminjaman <strong>${namaAset}</strong> oleh <strong>${namaUser}</strong>.
+                            </p>
+                            <p class="text-xs text-red-500 mt-2 italic font-medium">* Tindakan ini tidak dapat dibatalkan.</p>
+                        </div>
+                    `,
+                    icon: 'warning',
+                    iconColor: '#fd2800',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Tolak Permintaan',
+                    cancelButtonText: 'Batalkan',
+                    reverseButtons: true,
+                    confirmButtonColor: '#fd2800',
+                    cancelButtonColor: '#171717',
+                    customClass: {
+                        popup: 'rounded-2xl font-body',
+                        confirmButton: 'font-heading font-bold text-sm px-6 py-2.5 rounded-lg',
+                        cancelButton: 'font-heading font-bold text-sm px-6 py-2.5 rounded-lg'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit form secara programatik
+                        document.getElementById('form-reject-' + id).submit();
+                    }
+                });
+            }
+        });
         document.body.addEventListener('click', function(e) {
             const target = e.target.closest('.btn-return');
 
@@ -534,6 +576,8 @@
 
     
     </script>
+
+    
 @if(session('error'))
         <script>
             Swal.fire({
